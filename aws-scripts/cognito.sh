@@ -15,6 +15,10 @@ fi
 EXAM_USER_PASS=<contraseña del usuario del examen>
 EXAM_USER=<usuario del examen>
 
+# TODO: El cliente de Cognito se usa desde un navegador, que no puede guardar un secreto. Indica aquí la
+# opción de `aws cognito-idp create-user-pool-client` que evita generar un secreto para el cliente.
+CLIENT_SECRET_OPTION=<opcion>
+
 POOL_NAME="anuncios-pool"
 CLIENT_NAME="anuncios-front"
 
@@ -36,12 +40,11 @@ echo "listo."
 AUTH_FLOWS="ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH"
 
 echo -n "Creando App Client... "
-# --no-generate-secret: cliente público, el secreto quedaría visible en el navegador
 # shellcheck disable=SC2086
 CLIENT_ID=$(aws cognito-idp create-user-pool-client \
     --user-pool-id "$USER_POOL_ID" \
     --client-name "$CLIENT_NAME" \
-    --no-generate-secret \
+    $CLIENT_SECRET_OPTION \
     --explicit-auth-flows $AUTH_FLOWS \
     --query "UserPoolClient.ClientId" \
     --output text)

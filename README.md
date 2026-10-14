@@ -96,7 +96,7 @@ Ejecuta `nginx.sh`, `back.sh` y `front.sh`, en ese orden. Los tres deberían ter
 
 Ejecuta `aws-scripts/cognito.sh`. Al ejecutarlo debe crear en Cognito un *User Pool* con un cliente que permita iniciar sesión con usuario y contraseña, y el usuario del examen. También genera `back/src/main/resources/cognito.properties` y `front/config.js`, que el back y el front usarán cuando los vuelvas a desplegar.
 
-Antes de ejecutarlo, copia a mano en su cabecera los valores que pide.
+Antes de ejecutarlo, copia a mano en su cabecera los valores que pide. El script tiene además un hueco `TODO`, `CLIENT_SECRET_OPTION`. El cliente de la aplicación se usa desde un navegador, que no puede guardar un secreto. Escribe ahí la opción de `aws cognito-idp create-user-pool-client` que evita que se genere uno.
 
 | Valor | De dónde sale |
 |---|---|
