@@ -202,11 +202,11 @@ Con el túnel abierto, entra en `http://localhost:8082/h2-console` con estos dat
 | Usuario | `admin` |
 | Contraseña | la que tenga ahora la base de datos |
 
-**Checkpoint.** La aplicación debe seguir respondiendo en `http://<PUBLIC_IP>/api/whoami`, y su `huella` debe ser el SHA-256 de tu contraseña nueva, calculado como en el *checkpoint* de la Tarea 5 pero con `<DB_PASS_NUEVA>`.
-
 **Pregunta (1 punto).** Después de cambiar la contraseña en el secreto y en la base de datos, consulta `http://<PUBLIC_IP>/api/whoami`. ¿Por qué la `huella` no coincide con la de tu contraseña nueva?
 
 **Pregunta adicional (+1 punto).** ¿Cómo se puede conseguir que la `huella` sea correcta?
+
+**Checkpoint.** Una vez resuelto el problema anterior, la aplicación debe seguir respondiendo en `http://<PUBLIC_IP>/api/whoami`, y su `huella` debe ser el SHA-256 de tu contraseña nueva, calculado como en el *checkpoint* de la Tarea 5 pero con `<DB_PASS_NUEVA>`.
 
 ## Cómo entregar
 
