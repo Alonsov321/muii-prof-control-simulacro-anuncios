@@ -13,7 +13,7 @@ La nota máxima es de **12 puntos**: 10 puntos (5 de despliegue y 5 de preguntas
 | Parte | Puntos | Cómo se corrige |
 |---|---|---|
 | **Despliegue** (las 6 tareas) | **5** | Automáticamente, comprobando tu despliegue mediante un script que correrá el profesor |
-| **Preguntas abiertas** (8 preguntas) | **5** (más **2** adicionales) | A mano, por el profesor. **Se responden en el cuestionario de Moodle**. |
+| **Preguntas abiertas** (9 preguntas) | **5** (más **2** adicionales) | A mano, por el profesor. **Se responden en el cuestionario de Moodle**. |
 | **Total** | **12** (10 + 2 adicionales) | |
 
 ## La aplicación
@@ -126,10 +126,12 @@ Después, vuelve a ejecutar `back.sh` y `front.sh` para que el back y el front r
 
 El campo `usuario` debe mostrar tu usuario. El campo `grupos` seguirá vacío hasta la tarea siguiente. Si no es así, no sigas, porque el problema está en esta tarea:
 
-- Si `usuario` sale `null`, la llamada no ha llevado un token válido (no te has autenticado). La aplicación solo conoce tu usuario por el token que envías en la cabecera `Authorization`; si abres `http://<PUBLIC_IP>/api/whoami` en el navegador, no envía ningún token y `usuario` siempre será `null`. Revisa el paso 1 (que el comando haya devuelto el token y que hayas puesto bien `<CLIENT_ID>`, `<EXAM_USER>` y `<EXAM_USER_PASS>`) y que lo hayas pegado en el paso 2.
+- Si `usuario` sale `null`, la llamada no ha llevado un token válido (no te has autenticado). Revisa el paso 1 (que el comando haya devuelto el token y que hayas puesto bien `<CLIENT_ID>`, `<EXAM_USER>` y `<EXAM_USER_PASS>`) y que lo hayas pegado en el paso 2.
 - Si recibes un **401**, el token no es válido para el back. Comprueba que has vuelto a ejecutar `back.sh` tras `cognito.sh`.
 
-**Pregunta (1,5 puntos).** Decodifica el contenido del token que acabas de obtener. Cada dato del contenido se llama *claim*. **Pega en Moodle el claim (nombre y valor) que contiene cada uno de estos cuatro datos**: el identificador único de tu usuario en el *pool*, tu nombre de usuario, quién ha emitido el token y qué tipo de token es. No pegues el token original, que es una credencial válida durante una hora.
+**Pregunta (0,5 puntos).** Escribe `http://<PUBLIC_IP>/api/whoami` en la barra de direcciones del navegador. ¿Por qué no sale lo mismo que con el comando `curl` del paso 2?
+
+**Pregunta (1 punto).** Decodifica el contenido del token que acabas de obtener. Cada dato del contenido se llama *claim*. **Pega en Moodle el claim (nombre y valor) que contiene cada uno de estos cuatro datos**: el identificador único de tu usuario en el *pool*, tu nombre de usuario, quién ha emitido el token y qué tipo de token es. No pegues el token original, que es una credencial válida durante una hora.
 
 ### Tarea 4. Grupo `admin` en la consola web · 0,75 puntos
 
