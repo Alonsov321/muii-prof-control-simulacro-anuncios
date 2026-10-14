@@ -161,10 +161,15 @@ Después, vuelve a ejecutar `back.sh` para que el back lea el secreto.
 
 ```bash
 curl -s http://<PUBLIC_IP>/api/whoami
+
+# En macOS
 printf '%s' "<DB_PASS>" | shasum -a 256
+
+# En Linux, WSL o Git Bash (Windows)
+printf '%s' "<DB_PASS>" | sha256sum
 ```
 
-(`printf '%s'` evita añadir un salto de línea, que cambiaría el resultado. En Linux, usa `sha256sum` en lugar de `shasum -a 256`.)
+(`printf '%s'` evita añadir un salto de línea, que cambiaría el resultado. `shasum -a 256` es el comando de macOS; en Linux, WSL y Git Bash se usa `sha256sum`.)
 
 **Pregunta (0,75 puntos).** ¿De dónde lee Spring Boot la contraseña de la base de datos? Indica qué lee exactamente y de dónde.
 
