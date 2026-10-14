@@ -74,8 +74,8 @@ ENV
         mv "$ENTREGA.tmp" "$ENTREGA"
     else
         cat > "$ENTREGA" <<ENTREGA_TXT
-# EXAM_ID lo escribe bash params.sh. Escribe tú a mano la IP. Es lo que lee el corrector.
-#   IP  la IP pública de la instancia (CLI o consola web de EC2)
+# EXAM_ID lo escribe bash params.sh. Escribe tú a mano la IP.
+# IP      Indica la IP pública de la instancia.
 EXAM_ID=$EXAM_ID
 IP=
 ENTREGA_TXT
