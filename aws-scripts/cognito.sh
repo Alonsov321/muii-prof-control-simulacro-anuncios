@@ -15,21 +15,17 @@ fi
 EXAM_USER_PASS=<contraseña del usuario del examen>
 EXAM_USER=<usuario del examen>
 
-# TODO: El cliente de Cognito se usa desde un navegador, que no puede guardar un secreto. Indica aquí la
-# opción de `aws cognito-idp create-user-pool-client` que evita generar un secreto para el cliente.
-CLIENT_SECRET_OPTION=<opcion>
-
-POOL_NAME="anuncios-pool"
-CLIENT_NAME="anuncios-front"
+# TODO: El User Pool se llama `anuncios-pool` y su App Client `anuncios-front`. Escribe esos nombres en los
+# comandos `create-user-pool` y `create-user-pool-client`.
 
 FRONT_CONFIG="$PROJECT_ROOT/front/config.js"
 SPRING_CONFIG="$PROJECT_ROOT/back/src/main/resources/cognito.properties"
 
 AWS_REGION="$(aws configure get region)"
 
-echo -n "Creando User Pool '$POOL_NAME'... "
+echo -n "Creando User Pool... "
 USER_POOL_ID=$(aws cognito-idp create-user-pool \
-    --pool-name "$POOL_NAME" \
+    --pool-name <nombre del pool> \
     --policies '{"PasswordPolicy":{"MinimumLength":8,"RequireUppercase":true,"RequireLowercase":true,"RequireNumbers":true,"RequireSymbols":false}}' \
     --query "UserPool.Id" \
     --output text)
@@ -40,11 +36,12 @@ echo "listo."
 AUTH_FLOWS="ALLOW_USER_PASSWORD_AUTH ALLOW_REFRESH_TOKEN_AUTH"
 
 echo -n "Creando App Client... "
+# --no-generate-secret: cliente público, el secreto quedaría visible en el navegador
 # shellcheck disable=SC2086
 CLIENT_ID=$(aws cognito-idp create-user-pool-client \
     --user-pool-id "$USER_POOL_ID" \
-    --client-name "$CLIENT_NAME" \
-    $CLIENT_SECRET_OPTION \
+    --client-name <nombre del cliente> \
+    --no-generate-secret \
     --explicit-auth-flows $AUTH_FLOWS \
     --query "UserPoolClient.ClientId" \
     --output text)
