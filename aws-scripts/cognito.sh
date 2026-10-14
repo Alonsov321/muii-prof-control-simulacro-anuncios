@@ -15,8 +15,8 @@ fi
 EXAM_USER_PASS=<contraseña del usuario del examen>
 EXAM_USER=<usuario del examen>
 
-# TODO: El User Pool se llama `anuncios-pool` y su App Client `anuncios-front`. Escribe esos nombres en los
-# comandos `create-user-pool` y `create-user-pool-client`.
+# TODO: El User Pool se llama `anuncios-pool` y su App Client `anuncios-front`.
+# Escribe esos nombres en los comandos `create-user-pool` y `create-user-pool-client`.
 
 FRONT_CONFIG="$PROJECT_ROOT/front/config.js"
 SPRING_CONFIG="$PROJECT_ROOT/back/src/main/resources/cognito.properties"
