@@ -61,6 +61,7 @@ INSTANCE_ID=$(aws ec2 run-instances \
     --key-name "$KEY_NAME" \
     --iam-instance-profile Name="$INSTANCE_PROFILE" \
     --security-group-ids "$SG_ID" \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=anuncios-ec2}]" \
     --query "Instances[0].InstanceId" \
     --output text)
 echo "listo."

@@ -212,6 +212,6 @@ El *pull request* es parte de la evidencia. Su fecha y su contenido nos permiten
 ## Recuerda
 
 - No subas `params.txt` ni la clave SSH (`.pem`). Ya están en `.gitignore`.
-- Si algo falla y necesitas empezar de nuevo, **borra los recursos desde la consola web de AWS** (no hay scripts para ello). Los reconocerás por su nombre (`anuncios-sg`, `anuncios-pool`, y el secreto con tu EXAM_ID) o porque su IP pública es la que escribiste en `entrega.txt`.
+- Si algo falla y necesitas empezar de nuevo, **borra los recursos desde la consola web de AWS** (no hay scripts para ello). Los reconocerás por su nombre (`anuncios-ec2` para la instancia, `anuncios-sg`, `anuncios-pool`, y el secreto con tu EXAM_ID) o porque su IP pública es la que escribiste en `entrega.txt`.
 - Mientras no se corrija, no debes borrar los componentes (ec2, grupo de seguridad, ip estática, pool de Cognito) que has creado.
 - Si cambias de red durante el control (por ejemplo, de ethernet a eduroam o de una Wi-Fi a otra), tu IP pública cambia y `ssh` dejará de conectar (se queda esperando hasta que expira). Añade tu IP nueva a la regla del puerto 22 del grupo de seguridad desde la consola web, con origen `<tu IP>/32`. Si al final dejas varias, deja solo la tuya.
