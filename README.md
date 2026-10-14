@@ -96,12 +96,10 @@ Ejecuta `nginx.sh`, `back.sh` y `front.sh`, en ese orden. Los tres deberían ter
 
 Completa `aws-scripts/cognito.sh`.
 
-- Crea en Cognito un *User Pool* llamado `anuncios-pool` y, dentro de él, un cliente de la aplicación llamado `anuncios-front`. Escribe esos dos nombres en los huecos `TODO` de los comandos `create-user-pool` y `create-user-pool-client`.
-- El cliente permite iniciar sesión con usuario y contraseña directamente contra Cognito. Esa parte ya viene resuelta en el script.
-- Crea el usuario del examen. Su nombre (`EXAM_USER`) y su contraseña (`EXAM_USER_PASS`) los **copias a mano desde `params.txt`** en la cabecera del script.
-- Genera `back/src/main/resources/cognito.properties` y `front/config.js`, que el back y el front usarán cuando los vuelvas a desplegar.
+- Crea en Cognito un *User Pool* llamado `anuncios-pool` y, dentro de él, un cliente de la aplicación llamado `anuncios-front`. **Escribe esos dos nombres en los huecos `TODO` donde corresponda**.
+- Crea el usuario del examen. Su nombre (`EXAM_USER`) y su contraseña (`EXAM_USER_PASS`) los **copias a mano desde `params.txt`** en la cabecera del script. **El script ya crea el usuario en Cognito**, por lo que no es necesario usar el Hosted UI.
 
-Cuando `cognito.sh` termine, vuelve a ejecutar `back.sh` y `front.sh` para que el back y el front recojan la configuración de Cognito.
+El script genera `back/src/main/resources/cognito.properties` y `front/config.js`. Vuelve a ejecutar `back.sh` y `front.sh` para que el back y el front recojan la configuración de Cognito.
 
 **Checkpoint.** Obtén un *access token* del usuario del examen y compruébalo contra el back.
 
@@ -138,7 +136,7 @@ Ningún script crea el grupo `admin`: hazlo tú en la **consola web de Cognito**
 1. Abre tu *User Pool* (`anuncios-pool`) y crea un grupo llamado exactamente `admin`.
 2. Añade al grupo el usuario del examen.
 
-**Checkpoint.** Pide un *access token* nuevo del usuario del examen (con el mismo comando del *checkpoint* de la Tarea 3) y llama con él a `http://<PUBLIC_IP>/api/whoami`. El campo `grupos` debe mostrar `admin`. Si no es así, no sigas: el problema está en esta tarea. Un token anterior a añadir al usuario al grupo no lo muestra.
+**Checkpoint.** Pide un *access token* nuevo del usuario del examen (con el mismo comando del *checkpoint* de la Tarea 3) y llama con él a `http://<PUBLIC_IP>/api/whoami`. El campo `grupos` debe mostrar `admin`. Si no es así, no sigas: el problema está en esta tarea. Un token anterior a añadir al usuario al grupo no contiene el claim del grupo.
 
 **Pregunta (0,75 puntos).** Prueba a publicar un mensaje con este comando, primero con el token de la Tarea 3 (anterior al grupo) y después con el token nuevo. ¿Por qué ahora el `POST` funciona?
 
@@ -153,7 +151,7 @@ curl -s -o /dev/null -w '%{http_code}\n' -X POST \
 Completa `aws-scripts/secrets.sh`.
 
 - Existe en Secrets Manager un secreto con el nombre `SECRET_NAME` de `params.txt` y con los campos que espera `application.properties`.
-- `GET /api/whoami` devuelve en `huella` el SHA-256 de la contraseña que la aplicación ha leído de tu secreto. Solo puede coincidir si la aplicación ha leído tu secreto y, como un hash no permite recuperar la contraseña, **la respuesta no muestra la contraseña en texto plano**.
+- `GET /api/whoami` devuelve en `huella` el SHA-256 de la contraseña que la aplicación ha leído de tu secreto. Si no existe secreto, `GET /api/whoami` devuelve el SHA-256 de una cadena vacía, que es `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`.
 
 Después, vuelve a ejecutar `back.sh` para que el back lea el secreto.
 
@@ -171,9 +169,9 @@ printf '%s' "<DB_PASS>" | sha256sum
 
 (`printf '%s'` evita añadir un salto de línea, que cambiaría el resultado. `shasum -a 256` es el comando de macOS; en Linux, WSL y Git Bash se usa `sha256sum`.)
 
-**Pregunta (0,75 puntos).** ¿De dónde lee Spring Boot la contraseña de la base de datos? Indica qué lee exactamente y de dónde.
+**Pregunta (0,75 puntos).** ¿De dónde lee Spring Boot la contraseña de la base de datos?
 
-**Pregunta adicional (+1 punto).** El back necesita saber qué secreto debe leer. ¿Cómo conoce el nombre del secreto? Indica qué dato se le pasa al servicio del back en la instancia, cómo se lo pasa y quién lo hace.
+**Pregunta adicional (+1 punto).** El back necesita saber qué secreto debe leer, pero... ¿cómo conoce el nombre del secreto? Indica qué dato se le pasa al servicio del back en la instancia, cómo se lo pasa y quién lo hace.
 
 ### Tarea 6. Cambio de contraseña · 0,75 puntos
 
@@ -188,19 +186,19 @@ La contraseña de la base de datos debe pasar a ser `DB_PASS_NUEVA` (la de `para
 
    Sustituye `<DB_PASS_NUEVA>` por el valor de `params.txt`, y déjalo entre comillas simples. A partir de ese momento, la base de datos solo acepta la contraseña nueva para el usuario `admin`.
 
-La consola H2 forma parte de la aplicación, pero **no está publicada**: Nginx no la sirve y el puerto 8080 no está abierto. Se accede por un túnel SSH, que deja su puerto local 8082 conectado al 8080 de la instancia:
+    La consola H2 forma parte de la aplicación, pero **no está publicada**: Nginx no la sirve y el puerto 8080 no está abierto. Se accede por un túnel SSH, que deja su puerto local 8082 conectado al 8080 de la instancia:
 
-```bash
-ssh -i ssh-key/labsuser.pem -L 8082:127.0.0.1:8080 ubuntu@<PUBLIC_IP>
-```
+    ```bash
+    ssh -i ssh-key/labsuser.pem -L 8082:127.0.0.1:8080 ubuntu@<PUBLIC_IP>
+    ```
 
-Con el túnel abierto, entra en `http://localhost:8082/h2-console` con estos datos de conexión.
+    Con el túnel abierto, entra en `http://localhost:8082/h2-console` con estos datos de conexión.
 
-| Campo | Valor |
-|---|---|
-| JDBC URL | `jdbc:h2:file:/var/lib/anuncios/anuncios-admin` |
-| Usuario | `admin` |
-| Contraseña | la que tenga ahora la base de datos |
+    | Campo | Valor |
+    |---|---|
+    | JDBC URL | `jdbc:h2:file:/var/lib/anuncios/anuncios-admin` |
+    | Usuario | `admin` |
+    | Contraseña | la que tenga ahora la base de datos |
 
 **Pregunta (1 punto).** Después de cambiar la contraseña en el secreto y en la base de datos, consulta `http://<PUBLIC_IP>/api/whoami`. ¿Por qué la `huella` no coincide con la de tu contraseña nueva?
 
