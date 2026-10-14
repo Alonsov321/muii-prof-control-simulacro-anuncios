@@ -1,0 +1,12 @@
+# Parámetros individuales y estado del despliegue. No se suben.
+params.txt
+*.pem
+
+# Generados por cognito.sh
+front/config.js
+back/src/main/resources/cognito.properties
+
+# Compilación
+back/target/
+.DS_Store
+.vscode/

@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aplicación de anuncios</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 40rem; margin: 2rem auto; padding: 0 1rem; }
+    input, button { font: inherit; padding: .4rem; margin: .2rem 0; }
+    li { margin: .4rem 0; }
+    .meta { color: #666; font-size: .85em; }
+    #estado { color: #060; }
+  </style>
+</head>
+<body>
+  <h1>Aplicación de anuncios</h1>
+
+  <section id="login">
+    <h2>Acceso</h2>
+    <input id="usuario" placeholder="usuario" autocomplete="username">
+    <input id="contrasena" type="password" placeholder="contraseña" autocomplete="current-password">
+    <button id="entrar">Entrar</button>
+    <span id="estado"></span>
+  </section>
+
+  <section id="nuevo" hidden>
+    <h2>Nuevo mensaje</h2>
+    <input id="texto" placeholder="escribe un mensaje" size="40">
+    <button id="enviar">Enviar</button>
+  </section>
+
+  <h2>Mensajes</h2>
+  <ul id="lista"></ul>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

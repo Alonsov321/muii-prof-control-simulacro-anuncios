@@ -1,0 +1,2 @@
+# Los scripts son de bash: deben conservar los finales de línea LF aunque se clonen en Windows.
+*.sh text eol=lf
