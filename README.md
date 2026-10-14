@@ -94,16 +94,14 @@ Ejecuta `nginx.sh`, `back.sh` y `front.sh`, en ese orden. Los tres deberían ter
 
 ### Tarea 3. Identidad con Cognito · 0,75 puntos
 
-Ejecuta `aws-scripts/cognito.sh`. Al ejecutarlo debe crear en Cognito un *User Pool* con un cliente que permita iniciar sesión con usuario y contraseña, y el usuario del examen. También genera `back/src/main/resources/cognito.properties` y `front/config.js`, que el back y el front usarán cuando los vuelvas a desplegar.
+Completa `aws-scripts/cognito.sh`.
 
-Antes de ejecutarlo, copia a mano en su cabecera los valores que pide. El script tiene además dos huecos `TODO`: el nombre del *User Pool* (`anuncios-pool`) y el de su cliente (`anuncios-front`), en los comandos `create-user-pool` y `create-user-pool-client`.
+- Crea en Cognito un *User Pool* llamado `anuncios-pool` y, dentro de él, un cliente de la aplicación llamado `anuncios-front`. Escribe esos dos nombres en los huecos `TODO` de los comandos `create-user-pool` y `create-user-pool-client`.
+- El cliente permite iniciar sesión con usuario y contraseña directamente contra Cognito. Esa parte ya viene resuelta en el script.
+- Crea el usuario del examen. Su nombre (`EXAM_USER`) y su contraseña (`EXAM_USER_PASS`) los **copias a mano desde `params.txt`** en la cabecera del script.
+- Genera `back/src/main/resources/cognito.properties` y `front/config.js`, que el back y el front usarán cuando los vuelvas a desplegar.
 
-| Valor | De dónde sale |
-|---|---|
-| `EXAM_USER` | `params.txt` |
-| `EXAM_USER_PASS` | `params.txt` |
-
-Después, vuelve a ejecutar `back.sh` y `front.sh` para que el back y el front recojan la configuración de Cognito.
+Cuando `cognito.sh` termine, vuelve a ejecutar `back.sh` y `front.sh` para que el back y el front recojan la configuración de Cognito.
 
 **Checkpoint.** Obtén un *access token* del usuario del examen y compruébalo contra el back.
 
